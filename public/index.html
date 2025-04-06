@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Authentication</title>
+    <link rel="stylesheet" href="style.css">
+    <script defer src="app.js"></script>
+</head>
+<body>
+    <h1>User Authentication System</h1>
+
+    <div id="auth-section">
+        <h2>Login / Register</h2>
+        <input type="text" id="name" placeholder="Enter Name (for registration)">
+        <input type="email" id="email" placeholder="Enter Email" required>
+        <input type="password" id="password" placeholder="Enter Password" required>
+        <button onclick="registerUser()">Register</button>
+        <button onclick="loginUser()">Login</button>
+    </div>
+
+    <div id="file-section" style="display:none;">
+        <h2>Welcome, <span id="username"></span>!</h2>
+        <button onclick="logoutUser()">Logout</button>
+        <h3>Your S3 Files:</h3>
+        <ul id="s3-files"></ul>
+    </div>
+</body>
+</html>
