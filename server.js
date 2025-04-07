@@ -3,6 +3,7 @@ const mysql = require("mysql2");
 const dotenv = require("dotenv");
 const path = require("path");
 const AWS = require("aws-sdk");
+const multer = require("multer");
 
 dotenv.config();
 
@@ -21,6 +22,19 @@ const db = mysql.createConnection({
 db.connect((err) => {
     if (err) throw err;
     console.log("Connected to MySQL Database!");
+
+    // Auto-create 'users' table if it doesn't exist
+    const createTableQuery = `
+        CREATE TABLE IF NOT EXISTS users (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(100),
+            email VARCHAR(100) NOT NULL,
+            password VARCHAR(255) NOT NULL
+        )
+    `;
+    db.query(createTableQuery, (err) => {
+        if (err) console.error("Table creation error:", err);
+    });
 });
 
 // AWS S3 setup
@@ -31,7 +45,11 @@ AWS.config.update({
 });
 const s3 = new AWS.S3();
 
-// User Registration
+// Multer setup for file uploads
+const storage = multer.memoryStorage();
+const upload = multer({ storage });
+
+// User Registration route
 app.post("/register", (req, res) => {
     const { name, email, password } = req.body;
 
@@ -44,7 +62,7 @@ app.post("/register", (req, res) => {
     });
 });
 
-// User Login
+// User Login route
 app.post("/login", (req, res) => {
     const { email, password } = req.body;
 
@@ -59,6 +77,22 @@ app.post("/login", (req, res) => {
         } else {
             res.status(401).json({ error: "Invalid email or password" });
         }
+    });
+});
+
+// File upload route to S3
+app.post("/upload", upload.single("file"), (req, res) => {
+    const params = {
+        Bucket: process.env.AWS_BUCKET_NAME,
+        Key: req.file.originalname,
+        Body: req.file.buffer,
+    };
+
+    s3.upload(params, (err, data) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        res.status(200).json({ message: `File uploaded successfully: ${data.Location}` });
     });
 });
 

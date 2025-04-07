@@ -82,3 +82,33 @@ function logoutUser() {
     document.getElementById("auth-section").style.display = "block";
     document.getElementById("file-section").style.display = "none";
 }
+
+// Function to upload a file to S3
+async function uploadFile(event) {
+    event.preventDefault();
+
+    const fileInput = document.getElementById("fileInput");
+    const file = fileInput.files[0]; // Get the first file from the input
+
+    if (!file) {
+        alert("Please choose a file to upload.");
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await fetch("/upload", {
+        method: "POST",
+        body: formData
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+        alert("File uploaded successfully!");
+        showFileSection(JSON.parse(localStorage.getItem("user")).name); // Refresh the file list
+    } else {
+        alert("File upload failed: " + (data.error || "Unknown error"));
+    }
+}
