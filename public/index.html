@@ -3,27 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Authentication</title>
-    <link rel="stylesheet" href="style.css">
-    <script defer src="app.js"></script>
+    <title>File Upload and Download</title>
 </head>
 <body>
-    <h1>User Authentication System</h1>
-
     <div id="auth-section">
-        <h2>Login / Register</h2>
-        <input type="text" id="name" placeholder="Enter Name (for registration)">
-        <input type="email" id="email" placeholder="Enter Email" required>
-        <input type="password" id="password" placeholder="Enter Password" required>
+        <h2>Login or Register</h2>
+        <!-- Your registration and login forms go here -->
+        <!-- Register Form -->
+        <input type="text" id="name" placeholder="Name" required />
+        <input type="email" id="email" placeholder="Email" required />
+        <input type="password" id="password" placeholder="Password" required />
         <button onclick="registerUser()">Register</button>
+
+        <!-- Login Form -->
+        <input type="email" id="login-email" placeholder="Email" required />
+        <input type="password" id="login-password" placeholder="Password" required />
         <button onclick="loginUser()">Login</button>
     </div>
 
     <div id="file-section" style="display:none;">
-        <h2>Welcome, <span id="username"></span>!</h2>
-        <button onclick="logoutUser()">Logout</button>
-        <h3>Your S3 Files:</h3>
+        <h2>Welcome <span id="username"></span>!</h2>
+        
+        <h3>File Upload</h3>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" id="fileUpload" name="file" required />
+            <button type="submit">Upload File</button>
+        </form>
+        
+        <h3>Files in S3</h3>
         <ul id="s3-files"></ul>
+
+        <button onclick="logoutUser()">Logout</button>
     </div>
+
+    <script src="app.js"></script>
 </body>
 </html>
