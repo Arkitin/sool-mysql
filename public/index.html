@@ -4,36 +4,170 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>File Upload and Download</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 0;
+        }
+
+        h1, h2, h3 {
+            color: #333;
+            text-align: center;
+        }
+
+        #auth-section, #file-section {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .input-group {
+            margin: 10px 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-group input {
+            padding: 10px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .input-group button {
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .input-group button:hover {
+            background-color: #0056b3;
+        }
+
+        .file-list {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .file-list li {
+            margin: 10px 0;
+        }
+
+        .file-list a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        .file-list a:hover {
+            text-decoration: underline;
+        }
+
+        .upload-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .upload-section input[type="file"] {
+            margin-bottom: 20px;
+            padding: 10px;
+        }
+
+        .upload-section button {
+            padding: 12px 30px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .upload-section button:hover {
+            background-color: #218838;
+        }
+
+        #file-section {
+            display: none;
+        }
+
+        .logout-button {
+            background-color: #dc3545;
+            padding: 10px 20px;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .logout-button:hover {
+            background-color: #c82333;
+        }
+    </style>
 </head>
 <body>
-    <div id="auth-section">
-        <h2>Login or Register</h2>
-        <!-- Your registration and login forms go here -->
-        <!-- Register Form -->
-        <input type="text" id="name" placeholder="Name" required />
-        <input type="email" id="email" placeholder="Email" required />
-        <input type="password" id="password" placeholder="Password" required />
-        <button onclick="registerUser()">Register</button>
+    <div class="container">
+        <div id="auth-section">
+            <h2>Login or Register</h2>
 
-        <!-- Login Form -->
-        <input type="email" id="login-email" placeholder="Email" required />
-        <input type="password" id="login-password" placeholder="Password" required />
-        <button onclick="loginUser()">Login</button>
-    </div>
+            <div class="input-group">
+                <input type="text" id="name" placeholder="Name" required />
+            </div>
+            <div class="input-group">
+                <input type="email" id="email" placeholder="Email" required />
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" placeholder="Password" required />
+            </div>
+            <div class="input-group">
+                <button onclick="registerUser()">Register</button>
+            </div>
 
-    <div id="file-section" style="display:none;">
-        <h2>Welcome <span id="username"></span>!</h2>
-        
-        <h3>File Upload</h3>
-        <form id="uploadForm" enctype="multipart/form-data">
-            <input type="file" id="fileUpload" name="file" required />
-            <button type="submit">Upload File</button>
-        </form>
-        
-        <h3>Files in S3</h3>
-        <ul id="s3-files"></ul>
+            <div class="input-group">
+                <input type="email" id="login-email" placeholder="Email" required />
+            </div>
+            <div class="input-group">
+                <input type="password" id="login-password" placeholder="Password" required />
+            </div>
+            <div class="input-group">
+                <button onclick="loginUser()">Login</button>
+            </div>
+        </div>
 
-        <button onclick="logoutUser()">Logout</button>
+        <div id="file-section">
+            <h2>Welcome, <span id="username"></span>!</h2>
+
+            <div class="upload-section">
+                <h3>File Upload</h3>
+                <form id="uploadForm" enctype="multipart/form-data">
+                    <input type="file" id="fileUpload" name="file" required />
+                    <button type="submit">Upload File</button>
+                </form>
+            </div>
+
+            <h3>Files in S3</h3>
+            <ul id="s3-files" class="file-list"></ul>
+
+            <button class="logout-button" onclick="logoutUser()">Logout</button>
+        </div>
     </div>
 
     <script src="app.js"></script>

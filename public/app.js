@@ -25,8 +25,8 @@ async function registerUser() {
 
 // Function to log in a user
 async function loginUser() {
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    const email = document.getElementById("login-email").value;
+    const password = document.getElementById("login-password").value;
 
     const response = await fetch("/login", {
         method: "POST",
@@ -87,7 +87,7 @@ function logoutUser() {
 async function uploadFile(event) {
     event.preventDefault();
 
-    const fileInput = document.getElementById("fileInput");
+    const fileInput = document.getElementById("fileUpload");
     const file = fileInput.files[0]; // Get the first file from the input
 
     if (!file) {
